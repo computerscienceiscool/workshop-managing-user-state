@@ -1,10 +1,9 @@
  # Managing User State: Cookies, Sessions & Tokens  
-**Author**: JJ Salley  
+**JJ Salley**  
 
 ---
 
-## Title Slide  
-**Managing User State**  
+## **Managing User State**  
 *Cookies, Sessions & Tokens*  
 How apps remember who you are
 
@@ -135,18 +134,9 @@ How apps remember who you are
 
 ---
 
-## Updated Comparison Table  
-| Feature            | Cookies           | Sessions         | JWT Tokens         |
-|--------------------|------------------|------------------|--------------------|
-| Server storage     | Optional         | Required         | No                 |
-| Data location      | Browser          | Server           | Token itself       |
-| Transport          | Cookie header    | Cookie header    | Authorization header* |
-| Scaling            | Easy             | Challenging      | Very easy          |
-| 3rd-party APIs    | Limited          | Limited          | Excellent          |
-| Revocation         | Easy             | Easy             | Requires planning  |
-| Security           | Good (with flags)| Excellent        | Good (if stored safely) |
+## Comparison Table
 
-*Tokens can also be sent in cookies for web apps
+![](table-comparison.png)
 
 ---
 
