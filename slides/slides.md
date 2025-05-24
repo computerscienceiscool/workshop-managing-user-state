@@ -134,8 +134,6 @@ How apps remember who you are
 
 ---
 
-## Comparison Table
-
 ![](table-comparison.png)
 
 ---
