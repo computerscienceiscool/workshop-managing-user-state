@@ -1,4 +1,4 @@
-class: center, middle
+ 
 
 # Managing User State: Cookies, Sessions & Tokens Explained  
 **Author**: JJ Salley
@@ -97,12 +97,8 @@ Steve (“stevegt”) and the PromiseGrid community have built a decentralized a
 ## Conclusion  
 By using the cloakroom, library, and hotel analogies, you now have memorable hooks to explain how cookies, sessions, and tokens keep track of users. Whether you’re building a traditional web app or a decentralized PromiseGrid service, choosing the right method ensures both security and a smooth user experience.
 
-Thank you, and let’s continue the conversation about state management in PromiseGrid after the talk.
-
+Thank you
 
 ---
-
-class: center, middle
-
-# Thank You!
+ 
 
