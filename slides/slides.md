@@ -1,157 +1,237 @@
-# Managing User State: Cookies, Sessions & Tokens  
+ # Managing User State: Cookies, Sessions & Tokens  
 **Author**: JJ Salley  
 
 ---
 
-## Slide 1: Title Slide  
+## Title Slide  
 **Managing User State**  
-_Cookies, Sessions & Tokens_  
+*Cookies, Sessions & Tokens*  
 How apps remember who you are
 
 ---
 
-## Slide 2: The Big Question  
+## The Big Question  
 **How does a website remember you?**  
 - You sign in once  
 - Click around  
 - Still logged in  
-**Why?** Let’s find out.
+**Why?** HTTP is stateless - each request is independent. Let's explore how we add memory.
 
 ---
 
-## Slide 3: Cookie-Based Authentication  
+## Cookie-Based Authentication  
 **Analogy**: Cloakroom Ticket  
 - You hand in your coat (login)  
 - Get a numbered ticket (cookie)  
 - Show ticket to get coat (access protected content)
 
+**How it works**: Browser automatically sends cookie with each request
+
 ---
 
-## Slide 4: Cookies in Real Life  
+## Cookies in Real Life  
 **Examples**  
 - Staying logged into Facebook  
 - Shopping carts on Amazon  
 - Remembering dark mode settings
+- "Remember me" checkboxes
+
+**Technical note**: Cookies can store session IDs or actual user data
 
 ---
 
-## Slide 5: Cookie Pros & Cons  
-**Pros**  
-- Simple  
-- Built into browsers  
+## Cookie Security & Limitations  
+**Modern Security Features**  
+- **HttpOnly**: Prevents JavaScript access (XSS protection)
+- **Secure**: Only sent over HTTPS
+- **SameSite**: Prevents cross-site request forgery
 
-**Cons**  
-- Can be stolen or faked  
+**Limitations**  
+- Size limit (~4KB)
+- Domain restrictions
 - Must be validated on each request
 
 ---
 
-## Slide 6: Server-Side Sessions  
+## Server-Side Sessions  
 **Analogy**: Library Card  
 - Get a card with a barcode (session ID)  
 - Library (server) stores your info  
 - Card just points to your record
 
+**Key difference**: Only the session ID travels between browser and server
+
 ---
 
-## Slide 7: Sessions in Real Life  
+## Sessions in Real Life  
 **Examples**  
-- Online banking  
+- Online banking (auto-logout after inactivity)
 - School portals  
 - Insurance sites  
+- Shopping checkout processes
 
-**Note**: Sessions expire for safety.
+**Security benefit**: Sensitive data stays on server, not in browser
 
 ---
 
-## Slide 8: Session Pros & Cons  
+## Session Management Details  
 **Pros**  
 - Server controls everything  
-- Less risk in browser  
+- Easy to invalidate (logout everywhere)
+- Sensitive data never leaves server
 
 **Cons**  
-- Server must store and manage session data  
-- Harder to scale
+- Server must store session data (memory/database)
+- Harder to scale across multiple servers
+- Sessions can be lost if server restarts
 
 ---
 
-## Slide 9: Token-Based Authentication  
+## Token-Based Authentication  
 **Analogy**: Hotel Keycard  
 - Check in (login)  
 - Get keycard with permissions (token)  
 - Works until checkout (expiration)
 
----
-
-## Slide 10: Tokens in Real Life  
-**Examples**  
-- “Login with Google” on apps  
-- Budgeting apps accessing your bank  
-- Mobile apps syncing health data
+**Key insight**: Token contains the information, not just a reference
 
 ---
 
-## Slide 11: Token Pros & Cons  
+## JWT Structure & Examples  
+**JWT (JSON Web Token) Parts**:
+- **Header**: Token type and signing algorithm
+- **Payload**: User info and permissions  
+- **Signature**: Verification that token hasn't been tampered with
+
+**Real-world examples**:
+- "Login with Google" on apps
+- API access for mobile apps
+- Microservices communication
+
+---
+
+## Token Advantages & Challenges  
 **Pros**  
-- Stateless on the server  
-- Easy for mobile and 3rd-party apps  
+- Stateless on the server (no storage needed)
+- Perfect for mobile and API access
+- Easy to scale across multiple servers
+- Self-contained (includes user info)
 
-**Cons**  
-- Hard to revoke  
-- Needs secure storage on device
+**Challenges**  
+- Token revocation requires additional infrastructure
+- Larger size than session IDs
+- Sensitive to secure storage on client
 
 ---
 
-## Slide 12: Quick Comparison Table  
+## Token Revocation Solutions  
+**Common approaches**:
+- **Short expiration** + refresh tokens
+- **Token blacklists** (defeats stateless benefit)
+- **Token versioning** (increment user's token version on logout)
+- **Logout endpoints** that notify all services
 
-| Feature            | Cookies           | Sessions         | Tokens (JWT)       |
+**Best practice**: Combine short-lived access tokens with longer refresh tokens
+
+---
+
+## Updated Comparison Table  
+| Feature            | Cookies           | Sessions         | JWT Tokens         |
 |--------------------|------------------|------------------|--------------------|
-| Server storage     | No               | Yes              | No (usually)       |
-| Transport          | Cookie header    | Cookie header    | Authorization header |
-| Scaling            | Easy             | Medium           | Very easy          |
-| 3rd-party use      | Poor             | Poor             | Excellent          |
-| Revocation         | Easy             | Easy             | Tricky             |
+| Server storage     | Optional         | Required         | No                 |
+| Data location      | Browser          | Server           | Token itself       |
+| Transport          | Cookie header    | Cookie header    | Authorization header* |
+| Scaling            | Easy             | Challenging      | Very easy          |
+| 3rd-party APIs    | Limited          | Limited          | Excellent          |
+| Revocation         | Easy             | Easy             | Requires planning  |
+| Security           | Good (with flags)| Excellent        | Good (if stored safely) |
+
+*Tokens can also be sent in cookies for web apps
 
 ---
 
-## Slide 13: PromiseGrid’s Approach  
-**How does PromiseGrid manage user state?**  
+## When to Use Each Method  
 
+**Choose Cookies when**:
+- Traditional web applications
+- Simple authentication needs
+- Users primarily on desktop browsers
+
+**Choose Sessions when**:
+- High security requirements (banking, healthcare)
+- Server-side rendered applications
+- Need immediate logout capability
+
+**Choose Tokens when**:
+- Mobile applications
+- API-first architecture
+- Third-party integrations
+- Microservices
+
+---
+
+## PromiseGrid's Approach  
+**How does PromiseGrid manage user state?**  
 - **JWTs in localStorage**  
   Agents send tokens with each request  
 - **Ephemeral sessions**  
-  Used for short-term, high-security use  
+  Used for short-term, high-security operations  
 - **Agent context headers**  
-  Each message carries its own “identity badge”
+  Each message carries its own "identity badge"
+
+**Why this hybrid approach?** Combines API flexibility with security for sensitive operations
 
 ---
 
-## Slide 14: Analogy Recap  
-- **Cookies** = Cloakroom ticket  
-- **Sessions** = Library card  
-- **Tokens** = Hotel keycard  
-- **PromiseGrid** = Delivery driver with a digital badge
+## Security Best Practices  
+**For all methods**:
+- Always use HTTPS in production
+- Implement proper logout functionality
+- Set appropriate expiration times
+- Monitor for suspicious activity
+
+**Token-specific**:
+- Store JWTs securely (avoid localStorage for sensitive apps)
+- Use refresh token rotation
+- Validate tokens on every request
 
 ---
 
-## Slide 15: Real-Life Quiz  
-**Guess the Method:**  
-- A website keeps you logged in = ?  
-- Your bank logs you out after 10 minutes = ?  
-- You use an app that connects to Google = ?  
-
-Answers: Cookie, Session, Token
+## Analogy Recap  
+- **Cookies** = Cloakroom ticket (simple, browser handles it)
+- **Sessions** = Library card (server keeps the records)  
+- **Tokens** = Hotel keycard (self-contained permissions)  
+- **Hybrid approaches** = Different tools for different jobs
 
 ---
 
-## Slide 16: Final Thoughts  
-Choose the right method based on:  
-- Who stores the data  
-- How secure the context needs to be  
-- Whether it’s just your site or 3rd-party tools
+
+## Modern Trends  
+**What's happening now**:
+- **Passwordless authentication** (WebAuthn, magic links)
+- **Zero-trust architecture** (verify every request)
+- **OAuth 2.1** and **OpenID Connect** standardization
+- **httpOnly + SameSite** cookies making a comeback for web apps
+
+**The future**: Authentication methods will continue evolving, but these core concepts remain fundamental
 
 ---
 
-## Slide 17: Thank You  
+## Final Thoughts  
+Choose based on your specific needs:  
+- **Security requirements** (how sensitive is the data?)
+- **User experience** (mobile, web, or both?)  
+- **Architecture** (monolith vs microservices?)
+- **Team expertise** (what can you implement safely?)
+
+**Remember**: You can mix approaches - many apps use multiple methods for different features
+
+---
+
+## Thank You  
 Thanks for learning with me!  
 Questions welcome.
+
+--- 
+
+ 
