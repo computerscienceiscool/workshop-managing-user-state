@@ -135,7 +135,7 @@ How apps remember who you are
 
 ---
 
-## Updated Comparison Table  
+## Comparison Table  
 | Feature            | Cookies           | Sessions         | JWT Tokens         |
 |--------------------|------------------|------------------|--------------------|
 | Server storage     | Optional         | Required         | No                 |
