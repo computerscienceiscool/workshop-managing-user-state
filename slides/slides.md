@@ -120,11 +120,37 @@
 
 ---
 
+
+## **Client-Side Data Persistence Techniques**
+
+There’s more than one way for a browser to hang onto your data.
+
+Some common client-side storage options include:
+
+- **Cookies**: Small key-value pairs, automatically sent with requests
+- **LocalStorage**: Synchronous key-value store, persists across sessions
+- **SessionStorage**: Like localStorage, but clears on tab close
+- **IndexedDB**: A powerful, asynchronous database built into your browser
+- **Cache API**: Lets service workers store responses for offline use
+
+Each has its use. IndexedDB is great for large, structured data. Cookies are useful for server communication. Knowing when to use what matters.
+
+---
+
 ## PromiseGrid’s Approach
 
 - Mixes tokens and sessions.
 - Agent headers add context.
 - Short-lived sessions for sensitive tasks.
+
+---
+
+## **PromiseGrid – A Visual Analogy for Distributed State**
+
+- Local state = sticky notes on your device  
+- Shared state = synced notebook in the cloud  
+- PromiseGrid combines both  
+  → flexible agents with secure server sync
 
 ---
 
