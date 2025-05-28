@@ -1,6 +1,10 @@
+**Live Talk Script: Managing User State – Cookies, Sessions & Tokens**  
+**By JJ Salley**  
+*Style: Informative, friendly, non-technical*
 
+---
 
-### Slide: **Title Slide – Client-Side Web State Persistence**  
+### **Client-Side Web State Persistence**  
 Hi everyone! I’m JJ Salley, and today I want to talk about something invisible but essential to your experience online: how web apps remember who you are, what you’ve done, and even your preferences.
 
 Every time you log into a site, click around, refresh a page, or close the browser and come back later, there’s a system working quietly to keep your experience smooth.
@@ -9,7 +13,7 @@ We’ll explore how browsers and websites use cookies, sessions, tokens, local s
 
 ---
 
-### Slide: **The Big Question – How does a website remember you?**  
+### **The Big Question – How does a website remember you?**  
 Let’s begin with this: when you log into a site, how does it remember you across pages or even days later?
 
 Here’s the thing: websites run on a system called HTTP, and HTTP has no memory. It forgets everything between each click.
@@ -18,7 +22,7 @@ So developers had to come up with clever ways to give websites a memory. That’
 
 ---
 
-### Slide: **Cookie-Based Authentication – Cloakroom Ticket**  
+### **Cookie-Based Authentication – Cloakroom Ticket**  
 Let’s start with cookies.
 
 Imagine you’re at a coat check. You hand in your coat and receive a little ticket. That ticket doesn’t store the coat; it simply tells the attendant, "Hey, this person checked something in."
@@ -29,7 +33,7 @@ So cookies are like that little ticket — simple and automatic.
 
 ---
 
-### Slide: **Cookies in Real Life**  
+### **Cookies in Real Life**  
 You’ve seen cookies in action:
 
 - Staying logged into Facebook
@@ -41,7 +45,7 @@ These are all made possible by cookies. Behind the scenes, your browser is quiet
 
 ---
 
-### Slide: **Cookie Security & Limitations**  
+### **Cookie Security & Limitations**  
 Of course, cookies have limits and safety features.
 
 Good websites make cookies safer by adding rules:
@@ -54,7 +58,7 @@ Still, cookies can only hold a small amount of data, and the site has to check t
 
 ---
 
-### Slide: **Server-Side Sessions – Library Card**  
+### **Server-Side Sessions – Library Card**  
 Now let’s talk about **sessions**.
 
 Think of it like a **library card**. Your card doesn’t hold all the info about you. It just points to your file in the library’s computer.
@@ -63,7 +67,7 @@ A session works the same way. When you log in, the server creates a session—a 
 
 ---
 
-### Slide: **Sessions in Real Life**  
+### **Sessions in Real Life**  
 You’ll see sessions behind the scenes on:
 
 - Banking websites
@@ -75,7 +79,7 @@ Why? Because the actual data stays on the server, not in your browser. It’s mo
 
 ---
 
-### Slide: **Session Management Details**  
+### **Session Management Details**  
 So what’s the benefit?
 
 With sessions, the server is in charge. It can kick you out, log you out from everywhere, and keep your data safe.
@@ -84,7 +88,7 @@ But this also means it has to store that session somewhere. And if it crashes, t
 
 ---
 
-### Slide: **Token-Based Authentication – Hotel Keycard**  
+### **Token-Based Authentication – Hotel Keycard**  
 Now let’s look at **tokens**, especially a popular kind called JWTs.
 
 Imagine checking into a hotel. You get a **keycard**. That card doesn’t just say your name. It *knows* what room you can access, for how long, and maybe even what floor.
@@ -93,7 +97,7 @@ Tokens work like that keycard. When you log in, the server gives you a digital c
 
 ---
 
-### Slide: **JWT Structure & Examples**  
+### **JWT Structure & Examples**  
 These tokens, called JWTs, come in three parts:
 
 1. A label saying what type it is
@@ -108,7 +112,7 @@ You’ll see them when you:
 
 ---
 
-### Slide: **Token Advantages & Challenges**  
+### **Token Advantages & Challenges**  
 Tokens are powerful because they don’t rely on the server to remember anything. Once you have one, it works until it expires.
 
 They’re perfect for mobile and APIs, and they scale well.
@@ -117,7 +121,7 @@ But… revoking them requires additional planning. If a token gets stolen, it’
 
 ---
 
-### Slide: **Token Revocation Solutions**  
+### **Token Revocation Solutions**  
 To deal with that, developers use a few tricks:
 
 - Make tokens expire quickly
@@ -129,7 +133,7 @@ The best combo? Use short-lived tokens with refresh tokens for longer access.
 
 ---
 
-### Slide: **Updated Comparison Table**  
+### **Updated Comparison Table**  
 Let’s compare everything:
 
 | **Feature**         | **Cookies**           | **Sessions**          | **JWT Tokens**            |
@@ -148,7 +152,7 @@ Each one has strengths and tradeoffs. There’s no universal winner—just tools
 
 ---
 
-### Slide: **When to Use Each Method**  
+### **When to Use Each Method**  
 So, when do you use what?
 
 Use **cookies** for traditional websites. Simple needs, desktop users, nothing fancy.
@@ -159,7 +163,7 @@ Use **tokens** when you need something flexible, mobile-friendly, or you’re co
 
 ---
 
-### Slide: **PromiseGrid’s Approach**  
+### **PromiseGrid’s Approach**  
 Here at PromiseGrid, we actually mix approaches.
 
 We store tokens in the browser so agents can work flexibly. But for high-security actions, we use short-lived sessions.
@@ -170,7 +174,7 @@ It’s like using hotel keycards **and** security guards at the door. Best of bo
 
 ---
 
-### Slide: **Security Best Practices**  
+### **Security Best Practices**  
 No matter the method, the rules for safety stay the same:
 
 - Use encrypted connections (always HTTPS)
@@ -182,7 +186,7 @@ And if you're using tokens: store them carefully and rotate them when needed.
 
 ---
 
-### Slide: **Analogy Recap**  
+### **Analogy Recap**  
 Let’s bring back our metaphors:
 
 - **Cookies**: cloakroom tickets
@@ -194,7 +198,7 @@ Each one plays a role in helping sites remember who you are.
 
 ---
 
-### Slide: **Modern Trends**  
+### **Modern Trends**  
 What’s new in this space?
 
 - Passwordless logins, like magic links or face scans
@@ -206,7 +210,7 @@ But no matter the trend, the core concepts of cookies, sessions, and tokens stil
 
 ---
 
-### Slide: **Distributed Environments – A Visual Analogy**  
+### **Distributed Environments – A Visual Analogy**  
 So let’s talk about what happens in a **distributed world** — when users move across devices.
 
 Think of local storage, cookies, or IndexedDB like **sticky notes on your laptop**. Helpful, quick, right there when you need them — but only on *that* device. If you open your phone? That sticky note’s not there.
@@ -217,7 +221,7 @@ So when your app needs to be remembered across devices or browsers, client-side 
 
 ---
 
-### Slide: **Final Thoughts**  
+### **Final Thoughts**  
 So how do you decide what to use?
 
 - Ask how sensitive the data is
@@ -229,7 +233,7 @@ There’s no one-size-fits-all. And most modern apps actually combine these tool
 
 ---
 
-### Slide: **Thank You**  
+### **Thank You**  
 Thanks so much for joining me today!
 
 I hope this helped you understand how websites keep track of us online. I’m happy to answer any questions!
