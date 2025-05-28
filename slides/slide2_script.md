@@ -261,4 +261,32 @@ But no matter the trend, the core concepts of cookies, sessions, and tokens stil
 
 ### **Distributed Environments – A Visual Analogy**
 
-So let’s talk about what happens in a \*\*distri
+Distributed Environments – A Visual Analogy
+
+So let’s talk about what happens in a distributed world — when users move across devices.
+
+Think of local storage, cookies, or IndexedDB like sticky notes on your laptop. Helpful, quick, right there when you need them — but only on that device. If you open your phone? That sticky note’s not there.
+
+Now compare that to writing in a shared notebook that lives in the cloud. Everyone sees the same info — no matter where they open it. That’s what happens when you sync state through the server.
+
+So when your app needs to be remembered across devices or browsers, client-side tools aren’t enough. You need a strategy that connects the sticky note to the shared notebook.
+
+---
+
+### Final Thoughts
+
+So how do you decide what to use?
+
+* Ask how sensitive the data is
+* Think about where people will log in from
+* Consider how your system is built
+* And be honest about what your team can manage
+
+There’s no one-size-fits-all. And most modern apps actually combine these tools to get the best results.
+
+---
+
+Thank You
+
+Thanks so much for joining me today!
+
