@@ -167,3 +167,8 @@
 - Match the method to the context.
 - Combine tools if needed.
 - Prioritize user safety and experience.
+
+---
+
+# Thanks
+

@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title># **Managing User State**</title>
+  <title># Client-Side Web State Persistence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.css">
@@ -23,231 +23,180 @@
 <body>
   
   <textarea id="source">
- # Managing User State: Cookies, Sessions &amp; Tokens  
-**JJ Salley**  
+---
+## Client-Side Web State Persistence
+- JJ Salley
+---
+
+## The Big Question – How does a website remember you?
+
+- Websites use HTTP, which is stateless.
+- Cookies, sessions, and tokens help &#34;remember&#34; users.
+- These tools add memory to otherwise forgetful systems.
 
 ---
 
-## **Managing User State**  
-*Cookies, Sessions &amp; Tokens*  
-How apps remember who you are
+## Cookie-Based Authentication – Cloakroom Ticket
+
+- Like a coat check ticket.
+- Cookie = small identifier in your browser.
+- Sent with every request to identify you.
 
 ---
 
-## The Big Question  
-**How does a website remember you?**  
-- You sign in once  
-- Click around  
-- Still logged in  
-**Why?** HTTP is stateless - each request is independent. Let&#39;s explore how we add memory.
+## Cookies in Real Life
+
+- Used for:
+  - Staying logged in
+  - Saving cart contents
+  - Remembering preferences
+- Browser sends them automatically.
 
 ---
 
-## Cookie-Based Authentication  
-**Analogy**: Cloakroom Ticket  
-- You hand in your coat (login)  
-- Get a numbered ticket (cookie)  
-- Show ticket to get coat (access protected content)
+## Cookie Security &amp; Limitations
 
-**How it works**: Browser automatically sends cookie with each request
-
----
-
-## Cookies in Real Life  
-**Examples**  
-- Staying logged into Facebook  
-- Shopping carts on Amazon  
-- Remembering dark mode settings
-- &#34;Remember me&#34; checkboxes
-
-**Technical note**: Cookies can store session IDs or actual user data
+- Small in size.
+- Can be secured:
+  - HTTPOnly
+  - Secure
+  - SameSite
+- Can’t store sensitive data directly.
 
 ---
 
-## Cookie Security &amp; Limitations  
-**Modern Security Features**  
-- **HttpOnly**: Prevents JavaScript access (XSS protection)
-- **Secure**: Only sent over HTTPS
-- **SameSite**: Prevents cross-site request forgery
+## Server-Side Sessions – Library Card
 
-**Limitations**  
-- Size limit (~4KB)
-- Domain restrictions
-- Must be validated on each request
+- Like a library card pointing to your info.
+- Server keeps the data.
+- Browser has just a session ID.
 
 ---
 
-## Server-Side Sessions  
-**Analogy**: Library Card  
-- Get a card with a barcode (session ID)  
-- Library (server) stores your info  
-- Card just points to your record
+## Sessions in Real Life
 
-**Key difference**: Only the session ID travels between browser and server
-
----
-
-## Sessions in Real Life  
-**Examples**  
-- Online banking (auto-logout after inactivity)
-- School portals  
-- Insurance sites  
-- Shopping checkout processes
-
-**Security benefit**: Sensitive data stays on server, not in browser
+- Common in:
+  - Banking
+  - Schools
+  - Checkouts
+- Server maintains control and security.
 
 ---
 
-## Session Management Details  
-**Pros**  
-- Server controls everything  
-- Easy to invalidate (logout everywhere)
-- Sensitive data never leaves server
+## Session Management Details
 
-**Cons**  
-- Server must store session data (memory/database)
-- Harder to scale across multiple servers
-- Sessions can be lost if server restarts
+- Server handles session lifetime.
+- Can log users out or expire sessions.
+- Need storage strategy for scaling.
 
 ---
 
-## Token-Based Authentication  
-**Analogy**: Hotel Keycard  
-- Check in (login)  
-- Get keycard with permissions (token)  
-- Works until checkout (expiration)
+## Token-Based Authentication – Hotel Keycard
 
-**Key insight**: Token contains the information, not just a reference
+- JWT = Digital keycard with info inside.
+- Self-contained and portable.
+- Doesn’t need server-side storage.
 
 ---
 
-## JWT Structure &amp; Examples  
-**JWT (JSON Web Token) Parts**:
-- **Header**: Token type and signing algorithm
-- **Payload**: User info and permissions  
-- **Signature**: Verification that token hasn&#39;t been tampered with
+## JWT Structure &amp; Examples
 
-**Real-world examples**:
-- &#34;Login with Google&#34; on apps
-- API access for mobile apps
-- Microservices communication
+- Header: type &#43; algorithm
+- Payload: user info &#43; permissions
+- Signature: prevents tampering
 
 ---
 
-## Token Advantages &amp; Challenges  
-**Pros**  
-- Stateless on the server (no storage needed)
-- Perfect for mobile and API access
-- Easy to scale across multiple servers
-- Self-contained (includes user info)
+## Token Advantages &amp; Challenges
 
-**Challenges**  
-- Token revocation requires additional infrastructure
-- Larger size than session IDs
-- Sensitive to secure storage on client
+- Scales easily.
+- Great for mobile &amp; APIs.
+- Needs strategy for revocation.
 
 ---
 
-## Token Revocation Solutions  
-**Common approaches**:
-- **Short expiration** &#43; refresh tokens
-- **Token blacklists** (defeats stateless benefit)
-- **Token versioning** (increment user&#39;s token version on logout)
-- **Logout endpoints** that notify all services
+## Token Revocation Solutions
 
-**Best practice**: Combine short-lived access tokens with longer refresh tokens
+- Use short expiration times.
+- Add refresh tokens.
+- Track invalid tokens or version numbers.
 
 ---
 
-![](table-comparison.png)
+## Updated Comparison Table
+
+| Feature          | Cookies      | Sessions     | JWT Tokens   |
+|------------------|--------------|--------------|--------------|
+| Server storage   | Optional     | Required     | No           |
+| Data location    | Browser      | Server       | Token        |
+| Transport        | Cookie header| Cookie header| Auth header  |
+| Scaling          | Easy         | Challenging  | Very easy    |
+| 3rd-party APIs   | Limited      | Limited      | Excellent    |
+| Revocation       | Easy         | Easy         | Complex      |
+| Security         | Good         | Excellent    | Good         |
 
 ---
 
-## When to Use Each Method  
+## When to Use Each Method
 
-**Choose Cookies when**:
-- Traditional web applications
-- Simple authentication needs
-- Users primarily on desktop browsers
-
-**Choose Sessions when**:
-- High security requirements (banking, healthcare)
-- Server-side rendered applications
-- Need immediate logout capability
-
-**Choose Tokens when**:
-- Mobile applications
-- API-first architecture
-- Third-party integrations
-- Microservices
+- **Cookies**: Basic websites.
+- **Sessions**: High-security needs.
+- **Tokens**: Mobile, APIs, flexibility.
 
 ---
 
-## PromiseGrid&#39;s Approach  
-**How does PromiseGrid manage user state?**  
-- **JWTs in localStorage**  
-  Agents send tokens with each request  
-- **Ephemeral sessions**  
-  Used for short-term, high-security operations  
-- **Agent context headers**  
-  Each message carries its own &#34;identity badge&#34;
+## PromiseGrid’s Approach
 
-**Why this hybrid approach?** Combines API flexibility with security for sensitive operations
+- Mixes tokens and sessions.
+- Agent headers add context.
+- Short-lived sessions for sensitive tasks.
 
 ---
 
-## Security Best Practices  
-**For all methods**:
-- Always use HTTPS in production
-- Implement proper logout functionality
-- Set appropriate expiration times
-- Monitor for suspicious activity
+## Security Best Practices
 
-**Token-specific**:
-- Store JWTs securely (avoid localStorage for sensitive apps)
-- Use refresh token rotation
-- Validate tokens on every request
+- Always use HTTPS.
+- Allow easy logout.
+- Monitor and expire sessions.
+- Store tokens carefully.
 
 ---
 
-## Analogy Recap  
-- **Cookies** = Cloakroom ticket (simple, browser handles it)
-- **Sessions** = Library card (server keeps the records)  
-- **Tokens** = Hotel keycard (self-contained permissions)  
-- **Hybrid approaches** = Different tools for different jobs
+## Analogy Recap
+
+- Cookies = Coat check tickets
+- Sessions = Library cards
+- Tokens = Hotel keycards
 
 ---
 
+## Modern Trends
 
-## Modern Trends  
-**What&#39;s happening now**:
-- **Passwordless authentication** (WebAuthn, magic links)
-- **Zero-trust architecture** (verify every request)
-- **OAuth 2.1** and **OpenID Connect** standardization
-- **httpOnly &#43; SameSite** cookies making a comeback for web apps
-
-**The future**: Authentication methods will continue evolving, but these core concepts remain fundamental
+- Passwordless logins
+- Zero-trust models
+- Stronger standards
+- Cookies making a comeback
 
 ---
 
-## Final Thoughts  
-Choose based on your specific needs:  
-- **Security requirements** (how sensitive is the data?)
-- **User experience** (mobile, web, or both?)  
-- **Architecture** (monolith vs microservices?)
-- **Team expertise** (what can you implement safely?)
+## Distributed Environments
 
-**Remember**: You can mix approaches - many apps use multiple methods for different features
+- Local storage = sticky notes
+- Cloud state = shared notebook
+- Client-only tools won’t sync across devices
 
 ---
 
-## Thank You  
-Thanks for learning with me!  
-Questions welcome.
+## Final Thoughts
 
---- 
+- Match the method to the context.
+- Combine tools if needed.
+- Prioritize user safety and experience.
 
- 
+---
+
+# Thanks
+
 
   </textarea>
 
