@@ -1,4 +1,3 @@
----
 
 # Client-Side Web State Persistence  
 *Cookies, Sessions, Tokens & Data*
