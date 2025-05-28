@@ -1,10 +1,6 @@
-**Live Talk Script: Managing User State – Cookies, Sessions & Tokens**  
-**By JJ Salley**  
-*Style: Informative, friendly, non-technical*
 
----
+### **Client-Side Web State Persistence**
 
-### **Client-Side Web State Persistence**  
 Hi everyone! I’m JJ Salley, and today I want to talk about something invisible but essential to your experience online: how web apps remember who you are, what you’ve done, and even your preferences.
 
 Every time you log into a site, click around, refresh a page, or close the browser and come back later, there’s a system working quietly to keep your experience smooth.
@@ -13,7 +9,8 @@ We’ll explore how browsers and websites use cookies, sessions, tokens, local s
 
 ---
 
-### **The Big Question – How does a website remember you?**  
+### **The Big Question – How does a website remember you?**
+
 Let’s begin with this: when you log into a site, how does it remember you across pages or even days later?
 
 Here’s the thing: websites run on a system called HTTP, and HTTP has no memory. It forgets everything between each click.
@@ -22,7 +19,8 @@ So developers had to come up with clever ways to give websites a memory. That’
 
 ---
 
-### **Cookie-Based Authentication – Cloakroom Ticket**  
+### **Cookie-Based Authentication – Cloakroom Ticket**
+
 Let’s start with cookies.
 
 Imagine you’re at a coat check. You hand in your coat and receive a little ticket. That ticket doesn’t store the coat; it simply tells the attendant, "Hey, this person checked something in."
@@ -33,32 +31,35 @@ So cookies are like that little ticket — simple and automatic.
 
 ---
 
-### **Cookies in Real Life**  
+### **Cookies in Real Life**
+
 You’ve seen cookies in action:
 
-- Staying logged into Facebook
-- Amazon remembering your cart
-- Websites remembering your dark mode preference
-- That "Remember me" checkbox
+* Staying logged into Facebook
+* Amazon remembering your cart
+* Websites remembering your dark mode preference
+* That "Remember me" checkbox
 
 These are all made possible by cookies. Behind the scenes, your browser is quietly saying, "Hey, I’m still me," each time you click.
 
 ---
 
-### **Cookie Security & Limitations**  
+### **Cookie Security & Limitations**
+
 Of course, cookies have limits and safety features.
 
 Good websites make cookies safer by adding rules:
 
-- Some cookies can’t be read by JavaScript, which blocks certain attacks
-- Others only get sent over secure, encrypted connections
-- Some are restricted so they’re not sent between unrelated sites
+* Some cookies can’t be read by JavaScript, which blocks certain attacks
+* Others only get sent over secure, encrypted connections
+* Some are restricted so they’re not sent between unrelated sites
 
 Still, cookies can only hold a small amount of data, and the site has to check them constantly. They’re helpful but not a perfect solution.
 
 ---
 
-### **Server-Side Sessions – Library Card**  
+### **Server-Side Sessions – Library Card**
+
 Now let’s talk about **sessions**.
 
 Think of it like a **library card**. Your card doesn’t hold all the info about you. It just points to your file in the library’s computer.
@@ -67,19 +68,21 @@ A session works the same way. When you log in, the server creates a session—a 
 
 ---
 
-### **Sessions in Real Life**  
+### **Sessions in Real Life**
+
 You’ll see sessions behind the scenes on:
 
-- Banking websites
-- University portals
-- Insurance sites
-- Online checkout pages
+* Banking websites
+* University portals
+* Insurance sites
+* Online checkout pages
 
 Why? Because the actual data stays on the server, not in your browser. It’s more secure that way.
 
 ---
 
-### **Session Management Details**  
+### **Session Management Details**
+
 So what’s the benefit?
 
 With sessions, the server is in charge. It can kick you out, log you out from everywhere, and keep your data safe.
@@ -88,7 +91,8 @@ But this also means it has to store that session somewhere. And if it crashes, t
 
 ---
 
-### **Token-Based Authentication – Hotel Keycard**  
+### **Token-Based Authentication – Hotel Keycard**
+
 Now let’s look at **tokens**, especially a popular kind called JWTs.
 
 Imagine checking into a hotel. You get a **keycard**. That card doesn’t just say your name. It *knows* what room you can access, for how long, and maybe even what floor.
@@ -97,7 +101,8 @@ Tokens work like that keycard. When you log in, the server gives you a digital c
 
 ---
 
-### **JWT Structure & Examples**  
+### **JWT Structure & Examples**
+
 These tokens, called JWTs, come in three parts:
 
 1. A label saying what type it is
@@ -106,13 +111,14 @@ These tokens, called JWTs, come in three parts:
 
 You’ll see them when you:
 
-- Log into a site using your Google account
-- Use a mobile app
-- Or when two systems talk to each other automatically
+* Log into a site using your Google account
+* Use a mobile app
+* Or when two systems talk to each other automatically
 
 ---
 
-### **Token Advantages & Challenges**  
+### **Token Advantages & Challenges**
+
 Tokens are powerful because they don’t rely on the server to remember anything. Once you have one, it works until it expires.
 
 They’re perfect for mobile and APIs, and they scale well.
@@ -121,38 +127,41 @@ But… revoking them requires additional planning. If a token gets stolen, it’
 
 ---
 
-### **Token Revocation Solutions**  
+### **Token Revocation Solutions**
+
 To deal with that, developers use a few tricks:
 
-- Make tokens expire quickly
-- Give you a "refresh token" to get a new one when the old one expires
-- Keep a list of bad tokens
-- Or change a version number to invalidate older tokens
+* Make tokens expire quickly
+* Give you a "refresh token" to get a new one when the old one expires
+* Keep a list of bad tokens
+* Or change a version number to invalidate older tokens
 
 The best combo? Use short-lived tokens with refresh tokens for longer access.
 
 ---
 
-### **Updated Comparison Table**  
+### **Updated Comparison Table**
+
 Let’s compare everything:
 
-| **Feature**         | **Cookies**           | **Sessions**          | **JWT Tokens**            |
-|---------------------|------------------------|------------------------|----------------------------|
-| Server storage      | Optional               | Required               | No                         |
-| Data location       | Browser                | Server                 | Token itself               |
-| Transport           | Cookie header          | Cookie header          | Authorization header*      |
-| Scaling             | Easy                   | Challenging            | Very easy                  |
-| 3rd-party APIs      | Limited                | Limited                | Excellent                  |
-| Revocation          | Easy                   | Easy                   | Requires planning          |
-| Security            | Good (with flags)      | Excellent              | Good (if stored safely)    |
+| **Feature**    | **Cookies**       | **Sessions**  | **JWT Tokens**          |
+| -------------- | ----------------- | ------------- | ----------------------- |
+| Server storage | Optional          | Required      | No                      |
+| Data location  | Browser           | Server        | Token itself            |
+| Transport      | Cookie header     | Cookie header | Authorization header\*  |
+| Scaling        | Easy              | Challenging   | Very easy               |
+| 3rd-party APIs | Limited           | Limited       | Excellent               |
+| Revocation     | Easy              | Easy          | Requires planning       |
+| Security       | Good (with flags) | Excellent     | Good (if stored safely) |
 
-*Tokens can also be sent in cookies for web apps
+\*Tokens can also be sent in cookies for web apps
 
 Each one has strengths and tradeoffs. There’s no universal winner—just tools for different jobs.
 
 ---
 
-### **When to Use Each Method**  
+### **When to Use Each Method**
+
 So, when do you use what?
 
 Use **cookies** for traditional websites. Simple needs, desktop users, nothing fancy.
@@ -163,77 +172,93 @@ Use **tokens** when you need something flexible, mobile-friendly, or you’re co
 
 ---
 
-### **PromiseGrid’s Approach**  
-Here at PromiseGrid, we actually mix approaches.
+### **Client-Side Data Persistence Techniques**
 
-We store tokens in the browser so agents can work flexibly. But for high-security actions, we use short-lived sessions.
+Web apps don’t just need to remember *who* you are — they also need to remember *what* you were doing.
 
-And to top it off, we add something called agent headers — little ID badges that travel with each message.
+Here are some ways browsers store data beyond cookies:
 
-It’s like using hotel keycards **and** security guards at the door. Best of both worlds.
+| Feature         | Purpose                                            | Storage Location |
+| --------------- | -------------------------------------------------- | ---------------- |
+| Local Storage   | Simple key-value data                              | Browser          |
+| Session Storage | Temporary data (per tab)                           | Browser          |
+| IndexedDB       | Complex structured data (e.g. drafts, preferences) | Browser          |
+| Cache API       | Offline access, faster loads                       | Browser          |
+
+Each tool helps apps remember drafts, theme choices, carts, and more — not just logins.
 
 ---
 
-### **Security Best Practices**  
+### **PromiseGrid’s Data Persistence Approach**
+
+At PromiseGrid, user state isn’t just about logging in. We also persist:
+
+* Agent identities
+* Task history
+* Decision trails
+* Data artifacts (like generated plans, charts, or documents)
+
+How?
+
+* Auth state: token + optional session
+* Agent state: stored via versioned records
+* User data: saved to distributed stores (IPFS/Grid nodes)
+* Resilience: state is portable between devices, because it lives in the mesh
+
+This is more like giving each agent a **“travel journal”** it carries and syncs wherever it goes.
+
+---
+
+### **PromiseGrid Visual Analogy – Sticky Notes vs. Travel Journals**
+
+* **Cookies, LocalStorage, IndexedDB** = Sticky notes stuck on your laptop
+* **Sessions** = Notes at the front desk of a building
+* **Tokens** = ID badge
+* **PromiseGrid** = A full travel journal that syncs across agents, devices, and time
+
+PromiseGrid state doesn’t disappear when the page closes — it persists like a living notebook.
+
+---
+
+### **Security Best Practices**
+
 No matter the method, the rules for safety stay the same:
 
-- Use encrypted connections (always HTTPS)
-- Let users log out easily
-- Set time limits
-- Watch for weird behavior
+* Use encrypted connections (always HTTPS)
+* Let users log out easily
+* Set time limits
+* Watch for weird behavior
 
 And if you're using tokens: store them carefully and rotate them when needed.
 
 ---
 
-### **Analogy Recap**  
+### **Analogy Recap**
+
 Let’s bring back our metaphors:
 
-- **Cookies**: cloakroom tickets
-- **Sessions**: library cards
-- **Tokens**: hotel keycards
-- **Hybrids**: use what fits your needs
+* **Cookies**: cloakroom tickets
+* **Sessions**: library cards
+* **Tokens**: hotel keycards
+* **Hybrids**: use what fits your needs
 
 Each one plays a role in helping sites remember who you are.
 
 ---
 
-### **Modern Trends**  
+### **Modern Trends**
+
 What’s new in this space?
 
-- Passwordless logins, like magic links or face scans
-- Zero-trust security, where every request must prove itself
-- Better industry standards
-- And yes, even cookies are making a comeback — with stronger protections
+* Passwordless logins, like magic links or face scans
+* Zero-trust security, where every request must prove itself
+* Better industry standards
+* And yes, even cookies are making a comeback — with stronger protections
 
 But no matter the trend, the core concepts of cookies, sessions, and tokens still matter.
 
 ---
 
-### **Distributed Environments – A Visual Analogy**  
-So let’s talk about what happens in a **distributed world** — when users move across devices.
+### **Distributed Environments – A Visual Analogy**
 
-Think of local storage, cookies, or IndexedDB like **sticky notes on your laptop**. Helpful, quick, right there when you need them — but only on *that* device. If you open your phone? That sticky note’s not there.
-
-Now compare that to writing in a **shared notebook** that lives in the cloud. Everyone sees the same info — no matter where they open it. That’s what happens when you **sync state through the server**.
-
-So when your app needs to be remembered across devices or browsers, client-side tools aren’t enough. You need a strategy that connects the sticky note to the shared notebook.
-
----
-
-### **Final Thoughts**  
-So how do you decide what to use?
-
-- Ask how sensitive the data is
-- Think about where people will log in from
-- Consider how your system is built
-- And be honest about what your team can manage
-
-There’s no one-size-fits-all. And most modern apps actually combine these tools to get the best results.
-
----
-
-### **Thank You**  
-Thanks so much for joining me today!
-
-I hope this helped you understand how websites keep track of us online. I’m happy to answer any questions!
+So let’s talk about what happens in a \*\*distri
