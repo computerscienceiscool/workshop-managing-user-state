@@ -1,184 +1,168 @@
-
-# Client-Side Web State Persistence  
-*Cookies, Sessions, Tokens & Data*
-
-How apps remember who you are  
-**JJ Salley**
+# Client-Side Web State Persistence
 
 ---
 
-## The Big Question  
-**How does a website remember you?**  
-- You log in  
-- Click around  
-- Come back tomorrow — you're still you
+## The Big Question – How does a website remember you?
 
-But HTTP, the system websites use, is *stateless*.  
-It forgets between every click.  
-So how do we add memory? Let's find out.
+- Websites use HTTP, which is stateless.
+- Cookies, sessions, and tokens help "remember" users.
+- These tools add memory to otherwise forgetful systems.
 
 ---
 
-## Cookies = Cloakroom Ticket  
-- You check your coat and get a small ticket  
-- The website gives your browser a cookie  
-- On each visit, your browser says: "Hey, I’ve got this ticket!"
+## Cookie-Based Authentication – Cloakroom Ticket
 
-It’s simple, automatic, and works well for many cases.
-
----
-
-## Cookies in Real Life  
-- Staying logged into Facebook  
-- Amazon cart memory  
-- Remembering dark mode  
-- "Remember me" checkboxes
-
-Cookies help your browser remind the site who you are.
+- Like a coat check ticket.
+- Cookie = small identifier in your browser.
+- Sent with every request to identify you.
 
 ---
 
-## Cookie Security & Limits  
-✅ HttpOnly, Secure, SameSite — safety flags  
-❌ Small size (~4KB), domain-limited, must be validated
+## Cookies in Real Life
 
-Cookies are helpful, but they have boundaries.
-
----
-
-## Sessions = Library Card  
-- Your card has an ID  
-- The library keeps your record  
-- The card just points to your account
-
-Only the ID travels. The rest stays on the server.
+- Used for:
+  - Staying logged in
+  - Saving cart contents
+  - Remembering preferences
+- Browser sends them automatically.
 
 ---
 
-## Sessions in Real Life  
-- Banking sites  
-- School portals  
-- Health & insurance  
-- Checkout processes
+## Cookie Security & Limitations
 
-Sessions keep sensitive info *off* your browser.
-
----
-
-## Session Pros & Cons  
-✅ Server control  
-✅ Easy to log out everywhere  
-❌ Needs server memory  
-❌ Harder to scale  
-❌ Lost on crash
+- Small in size.
+- Can be secured:
+  - HTTPOnly
+  - Secure
+  - SameSite
+- Can’t store sensitive data directly.
 
 ---
 
-## Tokens = Hotel Keycard  
-- You check in, get a digital key  
-- The key *contains* your access info  
-- No need to check a guestbook
+## Server-Side Sessions – Library Card
 
-This is a **JWT** — JSON Web Token.
-
----
-
-## What’s Inside a JWT  
-- Header (type, algorithm)  
-- Payload (your data)  
-- Signature (proof it’s valid)
-
-Used for:  
-- Google logins  
-- Mobile apps  
-- Microservices
+- Like a library card pointing to your info.
+- Server keeps the data.
+- Browser has just a session ID.
 
 ---
 
-## Token Pros & Cons  
-✅ No server memory needed  
-✅ Great for mobile & scaling  
-❌ Can’t be revoked easily  
-❌ Needs careful client storage
+## Sessions in Real Life
 
-If a token gets stolen, you need systems in place.
+- Common in:
+  - Banking
+  - Schools
+  - Checkouts
+- Server maintains control and security.
 
 ---
 
-## Token Revocation Options  
-- Short expirations  
-- Refresh tokens  
-- Blacklists  
-- Token versioning  
-- Logout endpoints
+## Session Management Details
 
-**Best Practice**: Short-lived access + rotating refresh tokens.
+- Server handles session lifetime.
+- Can log users out or expire sessions.
+- Need storage strategy for scaling.
+
+---
+
+## Token-Based Authentication – Hotel Keycard
+
+- JWT = Digital keycard with info inside.
+- Self-contained and portable.
+- Doesn’t need server-side storage.
+
+---
+
+## JWT Structure & Examples
+
+- Header: type + algorithm
+- Payload: user info + permissions
+- Signature: prevents tampering
+
+---
+
+## Token Advantages & Challenges
+
+- Scales easily.
+- Great for mobile & APIs.
+- Needs strategy for revocation.
+
+---
+
+## Token Revocation Solutions
+
+- Use short expiration times.
+- Add refresh tokens.
+- Track invalid tokens or version numbers.
 
 ---
 
 ## Updated Comparison Table
 
-| Feature         | Cookies          | Sessions         | JWT Tokens         |
-|-----------------|------------------|------------------|--------------------|
-| Server storage  | Optional         | Required         | No                 |
-| Data location   | Browser          | Server           | Token itself       |
-| Transport       | Cookie header    | Cookie header    | Auth header*       |
-| Scaling         | Easy             | Challenging      | Very easy          |
-| 3rd-party APIs  | Limited          | Limited          | Excellent          |
-| Revocation      | Easy             | Easy             | Requires planning  |
-| Security        | Good (with flags)| Excellent        | Good (stored safely)|
-
-*Can also send tokens in cookies for web apps
+| Feature          | Cookies      | Sessions     | JWT Tokens   |
+|------------------|--------------|--------------|--------------|
+| Server storage   | Optional     | Required     | No           |
+| Data location    | Browser      | Server       | Token        |
+| Transport        | Cookie header| Cookie header| Auth header  |
+| Scaling          | Easy         | Challenging  | Very easy    |
+| 3rd-party APIs   | Limited      | Limited      | Excellent    |
+| Revocation       | Easy         | Easy         | Complex      |
+| Security         | Good         | Excellent    | Good         |
 
 ---
 
-## When to Use What  
-**Cookies**: Simple sites, desktop-first  
-**Sessions**: High-security, server-side rendered  
-**Tokens**: Mobile apps, APIs, third-party integrations
+## When to Use Each Method
 
-Choose what fits your user and your system.
-
----
-
-## What About Multiple Devices?  
-- Cookies & localStorage stay on one device  
-- No sync across phone and laptop  
-- IndexedDB is local-only
+- **Cookies**: Basic websites.
+- **Sessions**: High-security needs.
+- **Tokens**: Mobile, APIs, flexibility.
 
 ---
 
-## Visual Analogy: Sticky Notes vs Shared Notebook  
-- **Sticky Note** = localStorage, cookie, IndexedDB  
-  → Just on this device  
-- **Shared Notebook** = Synced to server  
-  → Accessible everywhere
+## PromiseGrid’s Approach
 
-Want a seamless experience? You need to sync your state.
+- Mixes tokens and sessions.
+- Agent headers add context.
+- Short-lived sessions for sensitive tasks.
 
 ---
 
-## Modern Trends  
-- Passwordless login (magic links, WebAuthn)  
-- Zero-trust architecture  
-- OAuth 2.1 + OpenID Connect  
-- Cookies making a secure comeback
+## Security Best Practices
 
-But at the core? Still cookies, sessions, tokens.
-
----
-
-## Final Thoughts  
-Pick based on:  
-- Security needs  
-- UX goals  
-- Architecture  
-- Team skills
-
-And remember — most apps use a mix. That’s okay.
+- Always use HTTPS.
+- Allow easy logout.
+- Monitor and expire sessions.
+- Store tokens carefully.
 
 ---
 
-## Thank You  
-Thanks for learning with me.  
-Questions welcome!
+## Analogy Recap
+
+- Cookies = Coat check tickets
+- Sessions = Library cards
+- Tokens = Hotel keycards
+
+---
+
+## Modern Trends
+
+- Passwordless logins
+- Zero-trust models
+- Stronger standards
+- Cookies making a comeback
+
+---
+
+## Distributed Environments
+
+- Local storage = sticky notes
+- Cloud state = shared notebook
+- Client-only tools won’t sync across devices
+
+---
+
+## Final Thoughts
+
+- Match the method to the context.
+- Combine tools if needed.
+- Prioritize user safety and experience.
