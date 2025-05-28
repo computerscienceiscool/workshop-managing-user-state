@@ -1,7 +1,7 @@
 
 ### **Client-Side Web State Persistence**
 
-Hi everyone! I’m JJ Salley, and today I want to talk about something invisible but essential to your experience online: how web apps remember who you are, what you’ve done, and even your preferences.
+Hi everyone! I want to talk about something invisible but essential to your experience online: how web apps remember who you are, what you’ve done, and even your preferences.
 
 Every time you log into a site, click around, refresh a page, or close the browser and come back later, there’s a system working quietly to keep your experience smooth.
 
@@ -13,7 +13,7 @@ We’ll explore how browsers and websites use cookies, sessions, tokens, local s
 
 Let’s begin with this: when you log into a site, how does it remember you across pages or even days later?
 
-Here’s the thing: websites run on a system called HTTP, and HTTP has no memory. It forgets everything between each click.
+Here’s the thing: websites run on systems called HTTPand HTTP.  Those have NO memory and it forgets everything between each click.
 
 So developers had to come up with clever ways to give websites a memory. That’s where cookies, sessions, and tokens come in.
 
@@ -95,7 +95,7 @@ But this also means it has to store that session somewhere. And if it crashes, t
 
 Now let’s look at **tokens**, especially a popular kind called JWTs.
 
-Imagine checking into a hotel. You get a **keycard**. That card doesn’t just say your name. It *knows* what room you can access, for how long, and maybe even what floor.
+Imagine checking into a hotel. You get a **keycard**. That card doesn’t just say your name. It *knows* what room you can access, for how long, and maybe even which floor.
 
 Tokens work like that keycard. When you log in, the server gives you a digital card — a token — that contains everything needed to prove who you are.
 
@@ -140,9 +140,9 @@ The best combo? Use short-lived tokens with refresh tokens for longer access.
 
 ---
 
-### **Updated Comparison Table**
+### **Comparison Table**
 
-Let’s compare everything:
+<!--  Let’s compare everything:
 
 | **Feature**    | **Cookies**       | **Sessions**  | **JWT Tokens**          |
 | -------------- | ----------------- | ------------- | ----------------------- |
@@ -158,6 +158,43 @@ Let’s compare everything:
 
 Each one has strengths and tradeoffs. There’s no universal winner—just tools for different jobs.
 
+ -->
+
+Now let’s stack these options side by side to see how they compare.
+
+**First, server storage:**
+- Cookies can store a little bit on your browser. Sometimes the server also uses them, but it’s optional.
+- Sessions need a server to keep track of your data.
+- Tokens like JWTs don’t require server storage at all — they carry the info with them.
+
+**Where’s the data stored?**
+- Cookies: in your browser.
+- Sessions: on the server.
+- Tokens: inside the token itself — it’s self-contained.
+
+**How’s the data sent?**
+- Cookies and sessions both use the cookie header.
+- Tokens usually go in an `Authorization` header, which is handy for APIs and mobile apps.
+
+**When it comes to scaling:**
+- Cookies and tokens are easy — they don’t require much server memory.
+- Sessions can be trickier for big apps, because the server has to keep everyone’s data organized.
+
+**For third-party APIs:**
+- Cookies and sessions don’t work so well.
+- Tokens are the best here — they’re built for it.
+
+**What about revoking access?**
+- Cookies and sessions are easy to revoke — the server just deletes the session or ignores the cookie.
+- Tokens are trickier. Once they’re out there, they stay valid until they expire unless you build extra systems to cancel them.
+
+**And finally, security:**
+- All of these can be secure — but only if used correctly.
+- Sessions tend to be the safest because the data never leaves the server.
+- Tokens need careful storage and short expiration times.
+
+So there’s no clear winner — just different tools for different jobs.
+
 ---
 
 ### **When to Use Each Method**
@@ -172,7 +209,9 @@ Use **tokens** when you need something flexible, mobile-friendly, or you’re co
 
 ---
 
-### **Client-Side Data Persistence Techniques**
+## **Client-Side Data Persistence Techniques – Script**
+
+ <!--  
 
 Web apps don’t just need to remember *who* you are — they also need to remember *what* you were doing.
 
@@ -185,12 +224,28 @@ Here are some ways browsers store data beyond cookies:
 | IndexedDB       | Complex structured data (e.g. drafts, preferences) | Browser          |
 | Cache API       | Offline access, faster loads                       | Browser          |
 
-Each tool helps apps remember drafts, theme choices, carts, and more — not just logins.
+Each tool helps apps remember drafts, theme choices, carts, and more — not just logins. -->
+
+
+
+So far we’ve talked a lot about how websites remember *who* you are — but they also need to remember *what* you’re doing.
+
+Maybe you’re writing a long post, halfway through a checkout process, or switching between light mode and dark mode. For all that, websites use more than just cookies.
+
+Here are a few client-side tools browsers offer:
+
+- **Local Storage** is like a simple notepad. It saves small bits of data — like a theme preference — and it sticks around even after you close the tab.
+- **Session Storage** is more temporary. It’s great for things like multi-step forms or wizards — and it disappears when you close the browser tab.
+- **IndexedDB** is more powerful. It’s like a mini database in your browser — great for saving drafts, preferences, or other structured data.
+- And then there’s the **Cache API**. This one helps with offline access and faster page loads. It lets the browser save parts of the site so they load quickly, even without internet.
+
+Each of these helps the app feel responsive, smooth, and personal — even before the server gets involved.
+
 
 ---
 
 ### **PromiseGrid’s Data Persistence Approach**
-
+<!--
 At PromiseGrid, user state isn’t just about logging in. We also persist:
 
 * Agent identities
@@ -206,17 +261,43 @@ How?
 * Resilience: state is portable between devices, because it lives in the mesh
 
 This is more like giving each agent a **“travel journal”** it carries and syncs wherever it goes.
+-->
+
+## **PromiseGrid’s Data Persistence Approach**
+
+Let’s talk about how we handle user state at PromiseGrid.
+
+It’s not just about keeping someone logged in. Our system needs to remember a lot more — like what agents were doing, what decisions they made, and what data they’ve created or used.
+
+Here’s how we break it down:
+
+- **Authentication**: We use a mix of tokens and sessions. That tells us *who* you are.
+- **Agent state**: Each agent has its own versioned history — like a logbook that records tasks, choices, and updates over time.
+- **User data**: Whether it’s a generated chart or a saved plan, we store that data across a distributed network — so it’s not tied to just one device.
+- **Resilience**: Everything is designed to be portable. If you switch devices, your state comes with you — because it lives in the mesh, not on just one machine.
+
+Think of it like this: each agent carries a **travel journal** — a notebook it always has on hand. Wherever the agent goes, that notebook goes too, keeping track of the journey.
+
 
 ---
 
-### **PromiseGrid Visual Analogy – Sticky Notes vs. Travel Journals**
+## **PromiseGrid Visual Analogy – Sticky Notes vs. Travel Journals**
 
-* **Cookies, LocalStorage, IndexedDB** = Sticky notes stuck on your laptop
-* **Sessions** = Notes at the front desk of a building
-* **Tokens** = ID badge
-* **PromiseGrid** = A full travel journal that syncs across agents, devices, and time
+Let’s make this visual.
 
-PromiseGrid state doesn’t disappear when the page closes — it persists like a living notebook.
+Think of different ways to save state like different types of notes:
+
+- **Cookies, LocalStorage, IndexedDB** — these are like **sticky notes** you put on your laptop. Super convenient, but only available on that one device. Close the laptop or switch to your phone? Those notes don’t come with you.
+
+- **Sessions** — these are like **notes at the front desk**. You check in, and someone else keeps track of your details. But if you visit another building, your info doesn’t follow unless they talk to each other.
+
+- **Tokens** — more like an **ID badge**. It tells systems who you are and what you’re allowed to do. Great for moving between places — but if you lose it, someone could use it unless you’ve got safeguards.
+
+Now here’s where **PromiseGrid** is different.
+
+It gives each agent a **travel journal** — a full notebook that goes everywhere they go. It holds identity, history, tasks, and data — and it syncs automatically.
+
+That means your state doesn’t vanish when a page closes or a device changes. It lives and grows, just like the agent carrying it.
 
 ---
 
@@ -237,7 +318,7 @@ And if you're using tokens: store them carefully and rotate them when needed.
 
 Let’s bring back our metaphors:
 
-* **Cookies**: cloakroom tickets
+* **Cookies**: coatroom tickets
 * **Sessions**: library cards
 * **Tokens**: hotel keycards
 * **Hybrids**: use what fits your needs
@@ -261,8 +342,6 @@ But no matter the trend, the core concepts of cookies, sessions, and tokens stil
 
 ### **Distributed Environments – A Visual Analogy**
 
-Distributed Environments – A Visual Analogy
-
 So let’s talk about what happens in a distributed world — when users move across devices.
 
 Think of local storage, cookies, or IndexedDB like sticky notes on your laptop. Helpful, quick, right there when you need them — but only on that device. If you open your phone? That sticky note’s not there.
@@ -280,7 +359,6 @@ So how do you decide what to use?
 * Ask how sensitive the data is
 * Think about where people will log in from
 * Consider how your system is built
-* And be honest about what your team can manage
 
 There’s no one-size-fits-all. And most modern apps actually combine these tools to get the best results.
 
